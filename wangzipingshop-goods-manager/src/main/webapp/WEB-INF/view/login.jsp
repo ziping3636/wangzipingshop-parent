@@ -30,8 +30,8 @@
 <link rel="icon"
 	href="https://v4.bootcss.com/docs/assets/img/favicons/favicon-16x16.png"
 	sizes="16x16" type="image/png">
-<link rel="manifest"
-	href="https://v4.bootcss.com/docs/assets/img/favicons/manifest.json">
+<!-- <link rel="manifest"
+	href="https://v4.bootcss.com/docs/assets/img/favicons/manifest.json"> -->
 <link rel="mask-icon"
 	href="https://v4.bootcss.com/docs/assets/img/favicons/safari-pinned-tab.svg"
 	color="#563d7c">
@@ -66,11 +66,11 @@
 		<img class="mb-4" src="./login_files/bootstrap-solid.svg" alt=""
 			width="72" height="72">
 		<h1 class="h3 mb-3 font-weight-normal">Please sign in</h1>
-		<label for="name" class="sr-only">UserName</label> <input
-			type="text" id="name" name="userName" class="form-control"
-			placeholder="UserName" required="" autofocus=""> <label
-			for="inputPassword" class="sr-only">Password</label> <input
-			type="password" id="inputPassword" name="password" class="form-control"
+		<label for="name" class="sr-only">UserName</label> <input type="text"
+			id="name" name="userName" class="form-control" placeholder="UserName"
+			required="" autofocus=""> <label for="inputPassword"
+			class="sr-only">Password</label> <input type="password"
+			id="inputPassword" name="password" class="form-control"
 			placeholder="Password" required="">
 		<div class="checkbox mb-3">
 			<label> <input type="checkbox" value="remember-me">

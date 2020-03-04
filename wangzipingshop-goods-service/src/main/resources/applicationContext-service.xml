@@ -4,11 +4,13 @@
 	xmlns:aop="http://www.springframework.org/schema/aop"
 	xmlns:tx="http://www.springframework.org/schema/tx"
 	xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:context="http://www.springframework.org/schema/context"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans 
 	http://www.springframework.org/schema/beans/spring-beans.xsd
        http://dubbo.apache.org/schema/dubbo 
        http://dubbo.apache.org/schema/dubbo/dubbo.xsd
        http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd
+       http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
        http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd">
 
 	<!--5、 配置jdbc事务管理器 -->
@@ -16,6 +18,10 @@
 		class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
 		<property name="dataSource" ref="dataSource"></property>
 	</bean>
+
+	<!-- 扫描器 -->
+	<context:component-scan
+		base-package="com.wangziping.shop.config" />
 
 	<!--配置事务 transaction-manager:表示关联的事务管理器是谁 -->
 	<tx:advice transaction-manager="transactionManager"
@@ -50,8 +56,7 @@
 	<dubbo:application
 		name="wangzipingshop-goods-service" />
 	<!-- 注册中心 采用zookeeper -->
-	<dubbo:registry
-		address="zookeeper://127.0.0.1:2181" />
+	<dubbo:registry address="zookeeper://127.0.0.1:2181" />
 	<!-- 直连 -->
 	<!-- <dubbo:registry address="N/A" /> -->
 	<!-- 通讯协议 -->

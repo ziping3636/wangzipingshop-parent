@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.wangziping.shop.dao.SpecDao">
+
+	<resultMap type="Spec" id="specMap">
+		<id column="id" property="id" />
+		<result column="spec_name" property="specName" />
+		<collection property="options" column="id"
+			select="selectOptions">
+		</collection>
+	</resultMap>
+
+	<resultMap type="SpecOption" id="SpecOptionMap">
+		<id column="id" property="id" />
+		<result column="option_name" property="optionName" />
+		<result column="spec_id" property="specId" />
+		<result column="orders" property="orders" />
+	</resultMap>
+
+	<select id="list" resultMap="specMap">
+		select * from hg_spec
+		<where>
+			<if test="value != null and value != ''">
+				and spec_name like concat('%', '#{value}', '%')
+			</if>
+		</where>
+	</select>
+
+	<select id="selectOptions" resultMap="SpecOptionMap">
+		select * from
+		hg_spec_option where spec_id = #{value}
+	</select>
+
+	<insert id="addSpec" keyProperty="id" keyColumn="id"
+		useGeneratedKeys="true">
+		insert into hg_spec (spec_name) values(#{specName})
+	</insert>
+
+	<insert id="addOptions">
+		insert into hg_spec_option(option_name, spec_id,
+		orders) values (#{optionName}, #{specId}, #{orders})
+	</insert>
+
+	<update id="updateSpec"></update>
+
+	<select id="findById"></select>
+
+	<delete id="deleteSpecOptions"></delete>
+
+	<delete id="deleteSpec"></delete>
+
+	<delete id="deleteBatchSpecOptions"></delete>
+
+	<delete id="deleteBatchSpec"></delete>
+</mapper>
