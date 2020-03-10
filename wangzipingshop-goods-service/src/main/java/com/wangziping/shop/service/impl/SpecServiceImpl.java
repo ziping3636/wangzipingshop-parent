@@ -41,7 +41,17 @@ public class SpecServiceImpl implements SpecService {
 	}
 
 	public int updateSpec(Spec spec) {
-		return specDao.updateSpec(spec);
+		specDao.deleteSpecOptions(spec.getId());
+
+		int updateSpec = specDao.updateSpec(spec);
+
+		List<SpecOption> options = spec.getOptions();
+		for (SpecOption specOption : options) {
+			specOption.setSpecId(spec.getId());
+			specDao.addOptions(specOption);
+		}
+
+		return updateSpec;
 	}
 
 	public Spec findById(int id) {
@@ -63,6 +73,11 @@ public class SpecServiceImpl implements SpecService {
 		// 删除主表
 		specDao.deleteBatchSpec(ids);
 		return 1;
+	}
+
+	@Override
+	public List<Spec> getAllSpec() {
+		return specDao.getAllSpec();
 	}
 
 }

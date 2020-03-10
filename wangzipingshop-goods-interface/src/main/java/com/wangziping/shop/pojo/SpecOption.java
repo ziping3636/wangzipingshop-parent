@@ -20,7 +20,19 @@ public class SpecOption implements Serializable {
 	private Integer id;
 	private String optionName;
 	private Integer specId;
-	private Integer orders;
+	private Integer orders = 0;
+	
+	private String specName;
+	
+	
+
+	public String getSpecName() {
+		return specName;
+	}
+
+	public void setSpecName(String specName) {
+		this.specName = specName;
+	}
 
 	public SpecOption() {
 		super();

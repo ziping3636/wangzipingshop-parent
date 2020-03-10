@@ -21,9 +21,12 @@
 		select * from hg_spec
 		<where>
 			<if test="value != null and value != ''">
-				and spec_name like concat('%', '#{value}', '%')
+				and spec_name like concat('%', #{value}, '%')
 			</if>
 		</where>
+	</select>
+	<select id="getAllSpec" resultType="Spec">
+		select id, spec_name as specName from hg_spec ORDER BY spec_name
 	</select>
 
 	<select id="selectOptions" resultMap="SpecOptionMap">
@@ -41,15 +44,33 @@
 		orders) values (#{optionName}, #{specId}, #{orders})
 	</insert>
 
-	<update id="updateSpec"></update>
+	<update id="updateSpec">
+		update hg_spec set spec_name = #{specName} where
+		id = #{id}
+	</update>
 
-	<select id="findById"></select>
+	<select id="findById" resultMap="specMap">
+		select * from hg_spec where id =
+		#{value}
+	</select>
 
-	<delete id="deleteSpecOptions"></delete>
+	<delete id="deleteSpecOptions">
+		delete from hg_spec_option where spec_id = #{value}
+	</delete>
 
-	<delete id="deleteSpec"></delete>
+	<delete id="deleteSpec">
+		delete from hg_spec where id = #{value}
+	</delete>
 
-	<delete id="deleteBatchSpecOptions"></delete>
+	<delete id="deleteBatchSpecOptions">
+		delete from hg_spec_option where spec_id in
+		<foreach collection="array" separator="," open="(" close=")"
+			item="specid">#{specid}</foreach>
+	</delete>
 
-	<delete id="deleteBatchSpec"></delete>
+	<delete id="deleteBatchSpec">
+		delete from hg_spec where id in
+		<foreach collection="array" separator="," open="(" close=")"
+			item="specid">#{specid}</foreach>
+	</delete>
 </mapper>

@@ -25,5 +25,7 @@ public interface SpecDao {
 
 	int deleteBatchSpec(int[] ids);
 
+	List<Spec> getAllSpec();
+
 
 }

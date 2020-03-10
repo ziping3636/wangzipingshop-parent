@@ -1,7 +1,5 @@
 package com.wangziping.shop.controller;
 
-import java.util.List;
-
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.dubbo.config.annotation.Reference;
@@ -12,7 +10,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.github.pagehelper.PageInfo;
 import com.wangziping.shop.pojo.Spec;
-import com.wangziping.shop.pojo.SpecOption;
 import com.wangziping.shop.service.SpecService;
 
 @Controller
@@ -40,6 +37,14 @@ public class SpecController {
 		return "spec/list";
 	}
 
+	/**
+	 * @Title: add
+	 * @Description: TODO添加规格
+	 * @param request
+	 * @param spec
+	 * @return
+	 * @return: Object
+	 */
 	@ResponseBody
 	@RequestMapping("addSpec")
 	public Object add(HttpServletRequest request, Spec spec) {
@@ -50,4 +55,67 @@ public class SpecController {
 		int addSpec = specService.addSpec(spec);
 		return addSpec > 0 ? true : false;
 	}
+
+	/**
+	 * @Title: updateSpec
+	 * @Description: TODO修改规格
+	 * @param request
+	 * @param spec
+	 * @return
+	 * @return: Object
+	 */
+	@ResponseBody
+	@RequestMapping("updateSpec")
+	public Object updateSpec(HttpServletRequest request, Spec spec) {
+		System.err.println(spec);
+		spec.getOptions().removeIf(x -> {
+			return x.getOptionName() == null;
+		});
+		int updateSpec = specService.updateSpec(spec);
+		return updateSpec > 0 ? true : false;
+	}
+
+	/**
+	 * @Title: delSpec
+	 * @Description: TODO删除规格
+	 * @param request
+	 * @param id
+	 * @return
+	 * @return: Object
+	 */
+	@ResponseBody
+	@RequestMapping("delSpec")
+	public Object delSpec(HttpServletRequest request, Integer id) {
+		return specService.deleteSpec(id) > 0 ? true : false;
+	}
+
+	/**
+	 * @Title: delBatchSpec
+	 * @Description: TODO批量删除规格
+	 * @param request
+	 * @param ids
+	 * @return
+	 * @return: Object
+	 */
+	@ResponseBody
+	@RequestMapping("delBatchSpec")
+	public Object delBatchSpec(HttpServletRequest request, @RequestParam(name = "ids[]") int[] ids) {
+		return specService.deleteBatchSpec(ids) > 0 ? true : false;
+	}
+
+	/**
+	 * @Title: findById
+	 * @Description: TODO根据id查询规格
+	 * @param request
+	 * @param id
+	 * @return
+	 * @return: Object
+	 */
+	@ResponseBody
+	@RequestMapping("getSpecById")
+	public Object getSpecById(HttpServletRequest request, Integer id) {
+		return specService.findById(id);
+	}
+	
+
 }

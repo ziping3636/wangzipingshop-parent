@@ -1,5 +1,7 @@
 package com.wangziping.shop.service;
 
+import java.util.List;
+
 import com.github.pagehelper.PageInfo;
 import com.wangziping.shop.pojo.Spec;
 
@@ -29,4 +31,6 @@ public interface SpecService {
 	 * @return: int
 	 */
 	int deleteBatchSpec(int[] ids);
+
+	List<Spec> getAllSpec();
 }

@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.wangziping.shop.dao.SkuDao">
+
+	<resultMap type="Sku" id="skuMap">
+		<id column="id" property="id" />
+		<result column="title" property="title" />
+		<result column="sell_point" property="sellPoint" />
+		<result column="price" property="price" />
+		<result column="stock_count" property="stockCount" />
+		<result column="barcode" property="barcode" />
+		<result column="image" property="image" />
+		<result column="status" property="status" />
+		<result column="create_time" property="createTime" />
+		<result column="update_time" property="updateTime" />
+		<result column="cost_price" property="costPrice" />
+		<result column="market_price" property="marketPrice" />
+		<result column="spu_id" property="spuId" />
+		<result column="cart_thumbnail" property="cartThumbnail" />
+		<association property="spu" column="spu_id"
+			select="com.wangziping.shop.dao.SpuDao.findById"></association>
+		<collection property="specs" column="id"
+			select="findSpecsBySkuid"></collection>
+	</resultMap>
+
+	<select id="list" resultMap="skuMap">
+		select * from hg_sku order by spu_id
+		desc, id desc
+	</select>
+
+
+	<select id="getSkuById" resultMap="skuMap">
+		select *, id as detailId from
+		hg_sku where id = #{value}
+	</select>
+
+	<select id="findSpecsBySkuid" resultType="SpecOption">
+		SELECT 
+		spec.id as spec_id,
+		spec.spec_name as specName,
+		specval.id oid,
+		specval.option_name as optionName
+		from hg_sku_spec as sku
+		left join hg_spec as spec on spec.id = sku.sku_id
+		left join hg_spec_option as specval on specval.id = sku.spec_option_id
+		where sku.sku_id = #{value}
+	</select>
+
+
+	<insert id="addSku" useGeneratedKeys="true" keyProperty="id" keyColumn="id">
+		insert into hg_sku (spu_id, title, sell_point, price) values(#{spuId}, #{title}, #{sellPoint}, #{price})
+	</insert>
+
+	<insert id="addSkuSpec">
+		insert into hg_sku_spec (sku_id, spec_id, spec_option_id) 
+		values (#{skuId}, #{so.specId}, #{so.id})
+	</insert>
+</mapper>

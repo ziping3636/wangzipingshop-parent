@@ -1,6 +1,9 @@
 package com.wangziping.shop.pojo;
 
 import java.io.Serializable;
+import java.util.List;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
  * @ClassName: Category
@@ -18,21 +21,13 @@ public class Category implements Serializable {
 	private static final long serialVersionUID = 2150761973088850675L;
 
 	private Integer id;
+
 	private Integer parentId; // 上一级别分类的id
+	@JsonProperty("text")
 	private String name; // 分类名称
 	private String path; // 从根分类到当前分类的路径
-
-	public Category() {
-		super();
-	}
-
-	public Category(Integer id, Integer parentId, String name, String path) {
-		super();
-		this.id = id;
-		this.parentId = parentId;
-		this.name = name;
-		this.path = path;
-	}
+	@JsonProperty("nodes")
+	private List<Category> children;
 
 	public Integer getId() {
 		return id;
@@ -64,6 +59,14 @@ public class Category implements Serializable {
 
 	public void setPath(String path) {
 		this.path = path;
+	}
+
+	public List<Category> getChildren() {
+		return children;
+	}
+
+	public void setChildren(List<Category> children) {
+		this.children = children;
 	}
 
 	@Override
@@ -99,7 +102,8 @@ public class Category implements Serializable {
 
 	@Override
 	public String toString() {
-		return "Category [id=" + id + ", parentId=" + parentId + ", name=" + name + ", path=" + path + "]";
+		return "Category [id=" + id + ", parentId=" + parentId + ", name=" + name + ", path=" + path + ", children="
+				+ children + "]";
 	}
 
 }
