@@ -30,7 +30,7 @@
 			<td><input type="checkbox" name="ids" value="${spec.id }"
 				onchange="selectOne()">&nbsp;&nbsp;&nbsp;${spec.id }</td>
 			<td>${spec.specName }</td>
-			<td><c:forEach items="${spec.options }" var="options"
+			<td width="300PX" height="50px"><c:forEach items="${spec.options }" var="options"
 					varStatus="index">
 						&nbsp;&nbsp;&nbsp;&nbsp;${options.optionName }
 					</c:forEach></td>

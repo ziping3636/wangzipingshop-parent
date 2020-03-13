@@ -190,9 +190,6 @@ public class SpuController {
 	@ResponseBody
 	@RequestMapping("addSku")
 	public Object addSku(HttpServletRequest request, Sku sku, int[] specIds, int[] specOptionIds) {
-		System.err.println(sku);
-		System.err.println(specIds);
-		System.err.println(specOptionIds);
 		List<SpecOption> specs = new ArrayList<>();
 		for (int i = 0; i < specIds.length && i < specOptionIds.length; i++) {
 			int j = specIds[i];

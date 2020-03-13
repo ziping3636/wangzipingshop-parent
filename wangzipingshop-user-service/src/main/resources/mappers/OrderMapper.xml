@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.wangziping.shop.dao.OrderDao">
+
+	<resultMap type="OrderDetail" id="orderDetailMap">
+		<id column="id" property="id" />
+		<association property="sku" column="skuid"
+			select="com.wangziping.shop.dao.SkuDao.findSkuByid"></association>
+	</resultMap>
+
+	<insert id="add" useGeneratedKeys="true" keyColumn="oid"
+		keyProperty="oid">
+		insert into orders ( uid, sumtotal, address,
+		create_time )
+		values ( #{uid}, #{sumtotal}, #{address}, now())
+	</insert>
+
+	<insert id="addDetail">
+		insert into ordersdetail ( skuid, total, oid, pnum )
+		values (#{skuid}, #{total}, #{oid}, #{pnum} )
+	</insert>
+
+
+	<select id="orderList" resultType="Order">
+		select * from orders where uid
+		= #{value}
+	</select>
+
+	<select id="detailList" resultMap="orderDetailMap">
+		select * from OrdersDetail
+		where oid = #{value}
+	</select>
+</mapper>

@@ -16,4 +16,15 @@ public interface SkuDao {
 	int addSku(Sku sku);
 
 	int addSkuSpec(@Param("skuId")int skuId, @Param("so")SpecOption so);
+
+	/**
+	 * @Title: listSkuBySpu 
+	 * @Description: TODO 根据spu 获取一个 sku 列表
+	 * @param spuId
+	 * @return
+	 * @return: List<Sku>
+	 */
+	List<Sku> listSkuBySpu(int spuId);
+	
+	Sku findSkuByid(Integer id);
 }

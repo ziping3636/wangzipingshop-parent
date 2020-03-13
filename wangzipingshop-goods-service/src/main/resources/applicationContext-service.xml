@@ -21,7 +21,7 @@
 
 	<!-- 扫描器 -->
 	<context:component-scan
-		base-package="com.wangziping.shop.config" />
+		base-package="com.wangziping.shop.config, com.wangziping.shop.utils" />
 
 	<!--配置事务 transaction-manager:表示关联的事务管理器是谁 -->
 	<tx:advice transaction-manager="transactionManager"
@@ -60,7 +60,7 @@
 	<!-- 直连 -->
 	<!-- <dubbo:registry address="N/A" /> -->
 	<!-- 通讯协议 -->
-	<dubbo:protocol name="dubbo" port="20890" />
+	<dubbo:protocol name="dubbo" port="20890" host="127.0.0.1" />
 	<!-- 注解扫描配置 指定了扫描的包 -->
 	<dubbo:annotation
 		package="com.wangziping.shop.service.impl" />

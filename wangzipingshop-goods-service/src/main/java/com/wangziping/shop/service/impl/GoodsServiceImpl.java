@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.apache.dubbo.config.annotation.Service;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.kafka.core.KafkaTemplate;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
@@ -16,8 +17,10 @@ import com.wangziping.shop.pojo.Category;
 import com.wangziping.shop.pojo.Sku;
 import com.wangziping.shop.pojo.SpecOption;
 import com.wangziping.shop.pojo.Spu;
+import com.wangziping.shop.pojo.SpuEsVo;
 import com.wangziping.shop.pojo.SpuVo;
 import com.wangziping.shop.service.GoodsService;
+import com.wangziping.shop.utils.ElasticSearchUtils;
 
 @Service(interfaceClass = GoodsService.class)
 public class GoodsServiceImpl implements GoodsService {
@@ -33,6 +36,12 @@ public class GoodsServiceImpl implements GoodsService {
 
 	@Autowired
 	private SkuDao skuDao;
+
+	@Autowired
+	private ElasticSearchUtils<SpuEsVo> elasticSearchUtils;
+
+	@Autowired
+	private KafkaTemplate<String, String> kafkaTemplate;
 
 	public int addBrand(Brand brand) {
 		return brandDao.addBrand(brand);
@@ -91,7 +100,13 @@ public class GoodsServiceImpl implements GoodsService {
 
 	@Override
 	public int addSpu(Spu spu) {
-		return spuDao.addSpu(spu);
+		int addSpu = spuDao.addSpu(spu);
+		Spu findById = spuDao.findById(spu.getId());
+		SpuEsVo spuEsVo = new SpuEsVo(findById);
+		elasticSearchUtils.saveObject(spuEsVo.getId().toString(), spuEsVo);
+
+		kafkaTemplate.send("MyAddSpu", "addSpu", spu.getId().toString());
+		return addSpu;
 	}
 
 	@Override
@@ -153,6 +168,11 @@ public class GoodsServiceImpl implements GoodsService {
 	@Override
 	public Spu getSpuById(Integer id) {
 		return spuDao.findById(id);
+	}
+
+	@Override
+	public List<Sku> listSkuBySpu(int spuId) {
+		return skuDao.listSkuBySpu(spuId);
 	}
 
 }

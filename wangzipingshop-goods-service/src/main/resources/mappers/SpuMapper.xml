@@ -29,7 +29,7 @@
 		select * from hg_spu where id = #{value}
 	</select>
 
-	<insert id="addSpu">
+	<insert id="addSpu" useGeneratedKeys="true" keyColumn="id" keyProperty="id">
 		insert into hg_spu (goods_name, is_marketable,
 		brand_id, caption, category_id, small_pic ) values (#{goodsName},
 		1,

@@ -65,4 +65,12 @@ public interface GoodsService {
 
 	int deleteSkuBatch(int[] ids);
 
+	/**
+	 * @Title: listSkuBySpu 
+	 * @Description: TODO 根据 spu 获取所有的 sku
+	 * @param SpuId
+	 * @return
+	 * @return: List<Sku>
+	 */
+	List<Sku> listSkuBySpu(int spuId);
 }

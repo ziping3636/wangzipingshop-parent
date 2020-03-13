@@ -52,7 +52,7 @@
 				</div>
 				<div class="col" style="margin-top: 32px">
 					<label for="brand"></label>
-					<button type="button" class="btn btn-danger" onclick="delNode()">删除</button>
+					<button type="button" class="btn btn-danger" onclick="delOption($(this))">删除</button>
 				</div>
 			</div>
 		</div>
@@ -69,13 +69,16 @@
 				<button type="button" style="width: 250px; height: 50px" class="btn btn-primary" onclick="commitData()">添加</button>
 			</div>
 		</div>
-		<button type="button" class="btn btn-danger" onclick="back()">撤销上一步操作</button>
 	</form>
 </div>
 
 <script type="text/javascript">
 	function addSpec() {
 		$("#specList").append($("#oneSpec").html())
+	}
+	
+	function delOption(delBtn) {
+		delBtn.parent().parent().remove();
 	}
 	
 	function commitData() {
@@ -87,8 +90,10 @@
 			contentType:false,
 			type:"post",
 			success:function (data) {
-				if (condition) {
+				if (data) {
 					alert("sku添加成功✔")
+					var url = "/spu/sku/list";
+					$("#main").load(url);
 				} else {
 					alert("sku添加失败✘")
 				}

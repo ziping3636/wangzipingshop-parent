@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.wangziping.shop.dao.CartDao">
+
+	<select id="listCart" resultType="Cart">
+		SELECT c.uid, c.id, c.skuid,
+		c.pnum, c.createtime, c.pnum * k.price sumTotal, k.title FROM hg_cart
+		c INNER
+		JOIN hg_sku k ON k.id = c.skuid where c.uid = #{value}
+	</select>
+
+	<delete id="delCart">
+		delete from hg_cart where id in
+		<foreach collection="array" open="(" close=")" separator=",">
+			#{id}
+		</foreach>
+	</delete>
+
+	<delete id="clear">
+		delete from hg_cart where uid = #{value}
+	</delete>
+
+	<insert id="addCart">
+		INSERT INTO hg_cart (uid, skuid, pnum, createtime)
+		Values (#{uid}, #{skuid}, #{pnum}, now())
+	</insert>
+
+	<select id="listByIds" resultType="Cart">
+		SELECT c.uid, c.id, c.skuid,
+		c.pnum, c.createtime, c.pnum * k.price
+		sumTotal, k.title FROM hg_cart c INNER
+		JOIN hg_sku k ON k.id = c.skuid
+		where c.id in
+		<foreach open="(" close=")" collection="array" separator=","
+			item="id">
+			#{id}
+		</foreach>
+	</select>
+
+	<delete id="deleteByIds">
+		delete from hg_cart where id in
+		<foreach open="(" close=")" collection="array" separator=","
+			item="id">
+			#{id}
+		</foreach>
+	</delete>
+</mapper>
