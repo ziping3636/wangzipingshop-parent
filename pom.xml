@@ -305,5 +305,8 @@
 		<module>wangzipingshop-goods-interface</module>
 		<module>wangzipingshop-goods-service</module>
 		<module>wangzipingshop-goods-manager</module>
+		<module>wangzipingshop-user-interface</module>
+		<module>wangzipingshop-user-web</module>
+		<module>wangzipingshop-user-service</module>
 	</modules>
 </project>
