@@ -64,6 +64,21 @@
 		<div style="margin-top: 30px">
 			<button type="button" class="btn btn-warning" onclick="addSpec()">添加新属性</button>
 		</div>
+		
+		<div class="form-row">
+		    <div class="col">
+		       <label>小图</label>	
+		      <input type="file" name="thumbnail" class="form-control-file" id="exampleFormControlFile1">
+		    </div>
+		  </div>
+		  
+		  <div class="form-row">
+		    <div class="col">
+		       <label>商品图片</label>	
+		      <input type="file" name="imageFile" class="form-control-file" id="exampleFormControlFile1">
+		    </div>
+		  </div>
+		
 		<div class="row" style="margin-top: 30px; text-align: center">
 			<div class="col">
 				<button type="button" style="width: 250px; height: 50px" class="btn btn-primary" onclick="commitData()">添加</button>

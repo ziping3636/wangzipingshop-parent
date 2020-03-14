@@ -27,9 +27,10 @@
 		select * from hg_sku order by spu_id
 		desc, id desc
 	</select>
-	
+
 	<select id="findSkuByid" resultType="Sku">
-		select id, title, price from hg_sku where id = #{value}
+		select id, title, price from
+		hg_sku where id = #{value}
 	</select>
 
 
@@ -39,29 +40,41 @@
 	</select>
 
 	<select id="findSpecsBySkuid" resultType="SpecOption">
-		SELECT 
+		SELECT
 		spec.id as spec_id,
 		spec.spec_name as specName,
 		specval.id oid,
 		specval.option_name as optionName
 		from hg_sku_spec as sku
-		left join hg_spec as spec on spec.id = sku.spec_id
-		left join hg_spec_option as specval on specval.id = sku.spec_option_id
+		left join
+		hg_spec as spec on spec.id = sku.spec_id
+		left join hg_spec_option as
+		specval on specval.id = sku.spec_option_id
 		where sku.sku_id = #{value}
 	</select>
 
 
-	<insert id="addSku" useGeneratedKeys="true" keyProperty="id" keyColumn="id">
-		insert into hg_sku (spu_id, title, sell_point, price) values(#{spuId}, #{title}, #{sellPoint}, #{price})
+	<insert id="addSku" useGeneratedKeys="true" keyProperty="id"
+		keyColumn="id">
+		<!-- insert into hg_sku (spu_id, title, sell_point, price) values(#{spuId}, 
+			#{title}, #{sellPoint}, #{price}) -->
+		insert into hg_sku(spu_id,title,sell_point,price,market_price,
+		cost_price,stock_count,cart_thumbnail,image,barcode,
+		status,create_time,update_time)
+		values(#{spuId},#{title},#{sellPoint},#{price},#{marketPrice},
+		#{costPrice},#{stockCount},#{cartThumbnail},#{image},#{barcode},
+		1,now(),now())
 	</insert>
 
 	<insert id="addSkuSpec">
-		insert into hg_sku_spec (sku_id, spec_id, spec_option_id) 
+		insert into hg_sku_spec (sku_id, spec_id,
+		spec_option_id)
 		values (#{skuId}, #{so.specId}, #{so.id})
 	</insert>
-	
+
 	<!-- 根据 spu 获取 sku -->
 	<select id="listSkuBySpu" resultMap="skuMap">
-		select *, id as detailId from hg_sku where spu_id = #{value} ORDER BY id DESC
+		select *, id as detailId
+		from hg_sku where spu_id = #{value} ORDER BY id DESC
 	</select>
 </mapper>

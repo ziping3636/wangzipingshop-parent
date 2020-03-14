@@ -162,35 +162,41 @@ public class SpuController {
 
 		return "sku/list";
 	}
-	
+
 	@RequestMapping("sku/toAddSku")
 	public String toAddSku(HttpServletRequest request, Integer spuId) {
 		Spu spuById = goodsService.getSpuById(spuId);
 		request.setAttribute("spu", spuById);
-		
+
 		List<Brand> allBrands = goodsService.getAllBrands();
 		request.setAttribute("brands", allBrands);
-		
+
 		List<Spec> allSpec = specService.getAllSpec();
 		request.setAttribute("specs", allSpec);
 		return "sku/add";
 	}
-	
+
 	@RequestMapping("sku/detail")
-	public String detail(HttpServletRequest request,Integer id) {
+	public String detail(HttpServletRequest request, Integer id) {
 		Sku skuById = goodsService.getSkuById(id);
 		List<Brand> allBrands = goodsService.getAllBrands();
-		
+
 		request.setAttribute("sku", skuById);
 		request.setAttribute("brand", allBrands);
-		
+
 		return "sku/detail";
 	}
-	
+
 	@ResponseBody
 	@RequestMapping("addSku")
-	public Object addSku(HttpServletRequest request, Sku sku, int[] specIds, int[] specOptionIds) {
+	public Object addSku(HttpServletRequest request, Sku sku, int[] specIds, int[] specOptionIds,
+			@RequestParam("thumbnail") MultipartFile thumbnail, @RequestParam("imageFile") MultipartFile image) throws Exception {
 		List<SpecOption> specs = new ArrayList<>();
+
+		// 处理图片
+		sku.setCartThumbnail(this.processFile(thumbnail));
+		sku.setImage(processFile(image));
+
 		for (int i = 0; i < specIds.length && i < specOptionIds.length; i++) {
 			int j = specIds[i];
 			SpecOption specOption = new SpecOption();
@@ -199,7 +205,7 @@ public class SpuController {
 			specs.add(specOption);
 		}
 		sku.setSpecs(specs);
-		
+
 		return goodsService.addSku(sku);
 	}
 
